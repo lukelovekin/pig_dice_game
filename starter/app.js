@@ -14,39 +14,45 @@ init()
 
 
 document.querySelector(".btn-roll").addEventListener('click', function() {
-    var diceDom = document.querySelector('.dice')
-    var dice = Math.floor((Math.random() * 6) + 1)
-    diceDom.style.display = 'block'
-    diceDom.src = "dice-" + dice + ".png"
+    if (gamePlaying) {
+        var diceDom = document.querySelector('.dice')
+        var dice = Math.floor((Math.random() * 6) + 1)
+        diceDom.style.display = 'block'
+        diceDom.src = "dice-" + dice + ".png"
 
-    roundScore += dice
-    document.querySelector('#current-' + activePlayer).innerHTML = roundScore
-
-    if (dice === 1) {
-        nextPlayer()
+        roundScore += dice
+        document.querySelector('#current-' + activePlayer).innerHTML = roundScore
+        
+        if (dice === 1) {
+            nextPlayer()
+        }
     }
 
 })
 
 
 document.querySelector(".btn-hold").addEventListener('click', function () {
-    scores[activePlayer] += roundScore
-
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]
-
-    nextPlayer()
+    if (gamePlaying) {
+        scores[activePlayer] += roundScore
+    
+        if (scores[activePlayer] >= 100) {
+            document.getElementById('name-' + activePlayer).textContent = 'Winner'
+            gamePlaying = false
+        }else{
+            document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]
+    
+            nextPlayer()
+        }
+    }
 })
 
 
-document.querySelector(".btn-new").addEventListener('click', function () {
-})
+document.querySelector(".btn-new").addEventListener('click', init)
 
 
 function nextPlayer() {
-    if (scores[activePlayer] > 100) {
-        document.getElementById('name-' + activePlayer).textContent = 'Winner'
 
-    }
+    roundScore = 0
 
     activePlayer ? activePlayer = 0 : activePlayer = 1
     document.querySelector('.player-0-panel').classList.toggle('active')
@@ -62,7 +68,7 @@ function init() {
     activePlayer = 0
     roundScore = 0
 
-    diceDom.style.display = 'none'
+    document.querySelector(".dice").style.display = 'none'
 
     document.querySelector('#score-0').innerHTML = "0"
     document.querySelector('#score-1').innerHTML = "0"
