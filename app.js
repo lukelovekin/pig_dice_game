@@ -18,7 +18,7 @@ document.querySelector(".btn-roll").addEventListener('click', function() {
         var diceDom = document.querySelector('.dice')
         var dice = Math.floor((Math.random() * 6) + 1)
         diceDom.style.display = 'block'
-        diceDom.src = "dice-" + dice + ".png"
+        diceDom.src = "./images/dice-" + dice + ".png"
 
         roundScore += dice
         document.querySelector('#current-' + activePlayer).innerHTML = roundScore
